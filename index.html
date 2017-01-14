@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title></title>
+</head>
+<body>
+<form>
+    <input class="search" type="text" name="">
+    <button  type="submit">Submit</button>
+</form>
+</body>
+<script
+  src="https://code.jquery.com/jquery-3.1.1.min.js"
+  integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+  crossorigin="anonymous"></script>
+<script type="text/javascript">
+const buttonPress = document.querySelector('button');
+const searchInput = document.querySelector('.search');
+function query(){
+  return searchInput.value.replace(/ /g,'+');
+}
+function createBody(){
+  query();
+  let val = ''
+  for(let i=0; i < 5; i++){
+     val +=' "jobTitle":"#serp div:nth-child('+ i +') li  h3", "job'+i+'":"a#position'+i+'",'
+  }
+    console.log(val);
+return val;
+}
+buttonPress.addEventListener('click', function (event){
+ event.preventDefault();
+let json_data = '{'+ createBody() + '"title": "title"}'
+fetch('https://www.jamapi.xyz', {
+    method: 'POST',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      url: 'https://www.dice.com/jobs?q=' + query() +'&l=MI&djtype=Full+Time&searchid=3465206207773',
+      json_data:json_data
+    })
+  }).then(function(response) {
+    return response.json();
+  }).then(function(json) {
+    console.log(json);
+    document.body.innerHTML = json.job1;
+  });  })
+
+</script>
+
+</html>
+
