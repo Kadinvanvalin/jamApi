@@ -23,7 +23,7 @@ function createBody(){
   query();
   let val = ''
   for(let i=0; i < 5; i++){
-     val +=' "jobTitle":"#serp div:nth-child('+ i +') li  h3", "job'+i+'":"a#position'+i+'",'
+     val +=' "jobTitle'+i+'":"#serp div:nth-child('+ i +') li  h3", "job'+i+'":"a#position'+i+'",'
   }
     console.log(val);
 return val;
