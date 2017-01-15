@@ -7,13 +7,55 @@
 <form>
     <input class="search" type="text" name="">
     <button  type="submit">Submit</button>
+    
 </form>
+<div class="results"> </div>
 </body>
-<script
-  src="https://code.jquery.com/jquery-3.1.1.min.js"
-  integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
-  crossorigin="anonymous"></script>
+
 <script type="text/javascript">
+let formatedState = {};
+function formatState(){
+  
+    //formatedState.title = state.title;
+    for(let i =1; i<5; i++){
+      let prop = "job" + i;
+      let prop2 = "jobTitle" + i;
+      formatedState[prop] = {};
+        formatedState[prop].job = state[prop2]
+        formatedState[prop].link = state[prop]
+    }
+    console.log(formatedState);
+}
+
+
+
+const hey = document.body.querySelector('.results');
+function renderResults(){
+   let form='';
+  function results(){
+    
+     for (key in formatedState) 
+    {
+            form+='<li>'+
+                '<div class="row">'+
+                    '<div class="col-xs-12 col-sm-9 no-margin">'+
+                        '<a href="'+formatedState[key].link +'">'+formatedState[key].job+'</a>'+
+                        '<div class="price">'+
+                            '<div class="">'+formatedState[key].job+'</div>'+
+                        '</div>'+
+                    '</div>'+
+            '</li>';
+    }
+   
+   
+  }
+ results();
+ console.log(form);
+hey.innerHTML = form;
+}
+
+
+let state = {};
 const buttonPress = document.querySelector('button');
 const searchInput = document.querySelector('.search');
 function query(){
@@ -23,7 +65,7 @@ function createBody(){
   query();
   let val = ''
   for(let i=1; i < 5; i++){
-     val +=' "jobTitle'+i+'":"#serp div:nth-child('+ i +') li  h3", "job'+i+'":"a#position'+i+'",'
+     val +=' "jobTitle'+i+'":"#serp div:nth-child('+ i +') li  h3", "job'+i+'":"a#position'+(i-1)+'",'
   }
     console.log(val);
 return val;
@@ -45,8 +87,12 @@ fetch('https://www.jamapi.xyz', {
     return response.json();
   }).then(function(json) {
     console.log(json);
-    document.body.innerHTML = json.job1;
+    state = json;
+    console.log(state);
+    formatState();
+    renderResults();
   });  })
+
 
 </script>
 
